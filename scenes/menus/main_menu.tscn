@@ -1,0 +1,121 @@
+[gd_scene load_steps=9 format=3 uid="uid://b47scrw6uvqrh"]
+
+[ext_resource type="Theme" uid="uid://cat2g16dps4au" path="res://themes/menu_theme.tres" id="1_4ie68"]
+[ext_resource type="FontFile" uid="uid://b5q43pbvnoom7" path="res://fonts/m5x7.ttf" id="2_1nvai"]
+[ext_resource type="Script" path="res://scenes/menus/main_menu.gd" id="2_4ye5d"]
+[ext_resource type="AudioStream" uid="uid://bywa4gj0lhx7w" path="res://sounds/soundfx/blip.wav" id="3_rbu8k"]
+[ext_resource type="Script" path="res://scenes/menus/new_game.gd" id="4_cd18a"]
+[ext_resource type="PackedScene" uid="uid://d2hk565ysi6jv" path="res://scenes/music/song_volcano.tscn" id="4_tif0w"]
+[ext_resource type="Script" path="res://scenes/menus/load_button.gd" id="5_axf05"]
+[ext_resource type="Script" path="res://scripts/buttons/button_effects.gd" id="7_xsysp"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_4ie68")
+script = ExtResource("2_4ye5d")
+click_sound = ExtResource("3_rbu8k")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.265
+anchor_right = 1.0
+anchor_bottom = 0.421
+offset_top = -62.6
+offset_bottom = -62.6
+color = Color(0.501961, 1, 1, 0.133333)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = -1
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.265
+anchor_right = 1.0
+anchor_bottom = 0.28
+offset_top = -62.6
+offset_bottom = -62.6
+color = Color(0.501961, 1, 1, 0.133333)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+z_index = -1
+z_as_relative = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.406
+anchor_right = 1.0
+anchor_bottom = 0.421
+offset_top = -62.6
+offset_bottom = -62.6
+color = Color(0.501961, 1, 1, 0.133333)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.163
+anchor_right = 1.0
+anchor_bottom = 0.46
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/normal_font = ExtResource("2_1nvai")
+theme_override_font_sizes/normal_font_size = 120
+bbcode_enabled = true
+text = "[center][pulse freq=1 color=#ffffff40 ease=-1.0]WIZINJA[/pulse][/center]
+
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.525
+anchor_right = 0.5
+anchor_bottom = 0.7
+offset_left = -100.0
+offset_top = -1.0
+offset_right = 100.0
+offset_bottom = 99.0
+grow_horizontal = 2
+theme_override_constants/separation = 10
+
+[node name="Load" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "LOAD"
+script = ExtResource("5_axf05")
+
+[node name="NewGame" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "NEW GAME"
+script = ExtResource("4_cd18a")
+
+[node name="Settings" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "SETTING"
+script = ExtResource("7_xsysp")
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+text = "QUIT"
+script = ExtResource("7_xsysp")
+
+[node name="VolcanoSong" parent="." instance=ExtResource("4_tif0w")]
+position = Vector2(177, -68)
+
+[connection signal="pressed" from="VBoxContainer/Load" to="." method="_on_load_pressed"]
+[connection signal="pressed" from="VBoxContainer/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
