@@ -64,7 +64,6 @@ colors = PackedColorArray(0.294118, 0.188235, 0.588235, 0.454902, 0.296066, 0.18
 size = Vector2(6, 16)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-z_index = 1
 collision_layer = 2
 collision_mask = 161
 floor_stop_on_slope = false
@@ -88,8 +87,8 @@ z_index = 1
 material = SubResource("ShaderMaterial_qbnsu")
 position = Vector2(0, -8)
 sprite_frames = ExtResource("7_81ax6")
-animation = &"swim"
-frame_progress = 0.891199
+animation = &"wall"
+frame_progress = 0.270182
 script = ExtResource("8_d14ph")
 character = NodePath("..")
 metadata/_edit_group_ = true
@@ -128,5 +127,6 @@ collision_mask = 32
 shape = SubResource("RectangleShape2D_delou")
 
 [node name="CameraInGame" parent="." instance=ExtResource("3_ps3tp")]
+ignore_rotation = false
 
 [connection signal="animation_looped" from="AnimatedSprite2D" to="AnimatedSprite2D" method="_on_animation_looped"]
