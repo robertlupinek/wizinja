@@ -1,0 +1,142 @@
+[gd_scene load_steps=18 format=3 uid="uid://5ct3nlttjeto"]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy_behavior.gd" id="1_wkb00"]
+[ext_resource type="PackedScene" uid="uid://bc0e15ad0s4fi" path="res://scenes/effects/particles/smoke_poof.tscn" id="2_3gsjh"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="3_5sfri"]
+[ext_resource type="Texture2D" uid="uid://dffnwj2vk6t6r" path="res://images/sprites/enemies/flappa.png" id="4_51wuv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vie4v"]
+size = Vector2(13, 26)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_umain"]
+resource_local_to_scene = true
+shader = ExtResource("3_5sfri")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t207w"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_en2wb"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_enqrq"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ft4my"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v42mq"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_frhy2"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7w2f"]
+atlas = ExtResource("4_51wuv")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yq1ui"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t207w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_en2wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_enqrq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ft4my")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v42mq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_frhy2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7w2f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Animation" id="Animation_gvh8b"]
+resource_name = "flash"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"_flash_sprite"
+}, {
+"args": [],
+"method": &"_flash_sprite"
+}, {
+"args": [],
+"method": &"_flash_sprite"
+}, {
+"args": [],
+"method": &"_flash_sprite"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k8i3t"]
+_data = {
+"flash": SubResource("Animation_gvh8b")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tx40"]
+size = Vector2(15, 27)
+
+[node name="Flappa" type="CharacterBody2D" groups=["enemies"]]
+z_index = -20
+collision_layer = 4
+collision_mask = 33
+script = ExtResource("1_wkb00")
+enemy_type = 1
+particle = ExtResource("2_3gsjh")
+gravity = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 3)
+shape = SubResource("RectangleShape2D_vie4v")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 0
+material = SubResource("ShaderMaterial_umain")
+sprite_frames = SubResource("SpriteFrames_yq1ui")
+frame_progress = 0.198764
+
+[node name="FlashAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k8i3t")
+}
+
+[node name="Area2DDamage" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+collision_priority = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DDamage"]
+position = Vector2(0.5, 2.5)
+shape = SubResource("RectangleShape2D_5tx40")
+debug_color = Color(0.833851, 0.348161, 0.46535, 0.42)
+
+[connection signal="body_entered" from="Area2DDamage" to="." method="_on_area_2d_damage_body_entered"]
