@@ -108,7 +108,7 @@ size = Vector2(15, 27)
 [node name="Flappa" type="CharacterBody2D" groups=["enemies"]]
 z_index = -20
 collision_layer = 4
-collision_mask = 33
+collision_mask = 32
 script = ExtResource("1_wkb00")
 enemy_type = 1
 particle = ExtResource("2_3gsjh")
@@ -138,5 +138,7 @@ collision_priority = 0.0
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_5tx40")
 debug_color = Color(0.833851, 0.348161, 0.46535, 0.42)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [connection signal="body_entered" from="Area2DDamage" to="." method="_on_area_2d_damage_body_entered"]

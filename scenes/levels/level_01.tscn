@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c48a3wfbusgbd"]
+[gd_scene load_steps=12 format=3 uid="uid://c48a3wfbusgbd"]
 
 [ext_resource type="PackedScene" uid="uid://cqbli6dcf6sj8" path="res://scenes/tilesets/tilemap_01.tscn" id="1_j3076"]
 [ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_pnjmv"]
@@ -6,14 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://bh0yyjt6naxkq" path="res://scenes/cameras/world_boundary.tscn" id="3_822pm"]
 [ext_resource type="PackedScene" uid="uid://l7ym8wptylko" path="res://scenes/effects/water/water_body.tscn" id="4_y8j07"]
 [ext_resource type="PackedScene" uid="uid://bjfh2ykpylvt" path="res://scenes/music/song_desert.tscn" id="5_y8ev4"]
-[ext_resource type="PackedScene" uid="uid://dx683gjesmtug" path="res://fonts/hud.tscn" id="6_rucyd"]
+[ext_resource type="PackedScene" uid="uid://dx683gjesmtug" path="res://scenes/ui/hud.tscn" id="6_rucyd"]
 [ext_resource type="PackedScene" uid="uid://dtayfa2h71u78" path="res://scenes/enemies/red_demon/red_demon.tscn" id="7_34c8f"]
 [ext_resource type="PackedScene" uid="uid://buwe2l6riioss" path="res://scenes/menus/pause_menu.tscn" id="9_at714"]
 [ext_resource type="PackedScene" uid="uid://h5lvwtk1iolv" path="res://scenes/effects/light_test.tscn" id="10_dp4eq"]
+[ext_resource type="PackedScene" uid="uid://5ct3nlttjeto" path="res://scenes/enemies/flappa/flappa.tscn" id="11_u760l"]
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_pnjmv")
-set_scene = true
+set_scene_as_checkpoint = true
 
 [node name="Player" parent="." instance=ExtResource("2_iiik1")]
 position = Vector2(224, 200)
@@ -76,3 +77,6 @@ shadow_color = Color(0, 0, 0, 0.494118)
 shadow_filter = 1
 shadow_filter_smooth = 0.9
 texture_scale = 2.7
+
+[node name="Flappa" parent="." instance=ExtResource("11_u760l")]
+position = Vector2(128, 192)

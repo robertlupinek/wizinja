@@ -112,6 +112,13 @@ func _path_follower_behavior():
 	# Walking Enemy	
 	velocity.x = facing * speed
 	$AnimatedSprite2D.play("default")		
+	
+	# Outside view
+	if !$VisibleOnScreenNotifier2D.is_on_screen():
+		velocity.x = -velocity.x
+		facing = -facing
+		$AnimatedSprite2D.scale.x = -$AnimatedSprite2D.scale.x
+		
 		
 func _patroller_behavior():
 

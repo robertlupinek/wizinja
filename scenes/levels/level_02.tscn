@@ -1,12 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtcrr8hdf4w31"]
+[gd_scene load_steps=12 format=3 uid="uid://dtcrr8hdf4w31"]
 
-[ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_2hxtx"]
 [ext_resource type="PackedScene" uid="uid://cqbli6dcf6sj8" path="res://scenes/tilesets/tilemap_01.tscn" id="1_cxiww"]
+[ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_tpngv"]
 [ext_resource type="PackedScene" uid="uid://bh0yyjt6naxkq" path="res://scenes/cameras/world_boundary.tscn" id="2_iosjw"]
 [ext_resource type="PackedScene" uid="uid://dd64m2gtmdvrw" path="res://scenes/player/player.tscn" id="3_e8nbx"]
 [ext_resource type="Shader" path="res://shaders/flash.gdshader" id="5_85cs2"]
 [ext_resource type="PackedScene" uid="uid://dnva8r0wc8m54" path="res://scenes/music/song_unknown_town.tscn" id="6_regpc"]
 [ext_resource type="PackedScene" uid="uid://5ct3nlttjeto" path="res://scenes/enemies/flappa/flappa.tscn" id="6_yq4a4"]
+[ext_resource type="PackedScene" uid="uid://dtayfa2h71u78" path="res://scenes/enemies/red_demon/red_demon.tscn" id="8_vb03i"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xepth"]
 resource_local_to_scene = true
@@ -24,8 +25,11 @@ fill_from = Vector2(0.504274, 0.517094)
 fill_to = Vector2(0.226496, 0.846154)
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_2hxtx")
-set_scene = true
+script = ExtResource("1_tpngv")
+set_scene_as_checkpoint = true
+
+[node name="RedDemon2" parent="." instance=ExtResource("8_vb03i")]
+position = Vector2(64, 112)
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 position = Vector2(144, 101)
@@ -65,11 +69,16 @@ texture_scale = 12.61
 [node name="Flappa" parent="." instance=ExtResource("6_yq4a4")]
 position = Vector2(40, 32)
 
+[node name="Flappa3" parent="." instance=ExtResource("6_yq4a4")]
+position = Vector2(24, 104)
+
 [node name="Flappa2" parent="." instance=ExtResource("6_yq4a4")]
 position = Vector2(96, 56)
-collision_mask = 32
 
 [node name="DarkSong" parent="." instance=ExtResource("6_regpc")]
 position = Vector2(424, 16)
+
+[node name="RedDemon" parent="." instance=ExtResource("8_vb03i")]
+position = Vector2(240, 80)
 
 [editable path="Player"]
