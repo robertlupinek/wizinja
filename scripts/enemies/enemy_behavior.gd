@@ -1,15 +1,12 @@
 extends CharacterBody2D
 
-
-
-
 enum EnemyType {
 	PATROLLER,
 	PATH_FOLLOWER
 }
 @export var enemy_type: = EnemyType.PATROLLER
 
-var speed = 50.0
+@export var speed = 50.0
 var jump_velocity = -400.0
 
 @export var hp: float = 10
@@ -29,20 +26,16 @@ var dmg: float = 1
 @export var gravity: float = 500
 
 func _ready():
-	velocity.x = speed
 	add_child(hurt_timer)
 	hurt_timer.one_shot = true
 	$AnimatedSprite2D.play("default")
 	
+
 func _physics_process(delta):
 
 	# IF a patroller type
 	if enemy_type == EnemyType.PATROLLER:
 		_patroller_behavior()
-	# IF a path follower type
-	if enemy_type == EnemyType.PATH_FOLLOWER:
-		_path_follower_behavior()
-		
 
 	# Add the gravity.
 	velocity.y += gravity * delta
@@ -52,17 +45,8 @@ func _physics_process(delta):
 	else:
 		$AnimatedSprite2D.material.set_shader_parameter("active",false)
 		$FlashAnimation.stop()			
-
-	# _collisions()
 	move_and_slide()
 
-func _collisions():
-	# Loop through all collisions looking for a collision with player
-	for i in get_slide_collision_count():
-		var col: Node2D = get_slide_collision(i).get_collider()
-		if col.is_in_group("player"):
-			col._hurt(dmg)
-	
 func _flip():
 	# Flip the facing direction
 	facing = -facing
@@ -102,24 +86,10 @@ func _the_ending():
 	world.add_child(smoke)	
 	queue_free()
 
-
 func _on_area_2d_damage_body_entered(body):
 	if body.is_in_group("player"):
 		body._hurt(dmg)
-	
-func _path_follower_behavior():
 
-	# Walking Enemy	
-	velocity.x = facing * speed
-	$AnimatedSprite2D.play("default")		
-	
-	# Outside view
-	if !$VisibleOnScreenNotifier2D.is_on_screen():
-		velocity.x = -velocity.x
-		facing = -facing
-		$AnimatedSprite2D.scale.x = -$AnimatedSprite2D.scale.x
-		
-		
 func _patroller_behavior():
 
 	# Check for walls

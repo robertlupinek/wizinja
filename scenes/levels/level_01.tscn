@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c48a3wfbusgbd"]
+[gd_scene load_steps=14 format=3 uid="uid://c48a3wfbusgbd"]
 
 [ext_resource type="PackedScene" uid="uid://cqbli6dcf6sj8" path="res://scenes/tilesets/tilemap_01.tscn" id="1_j3076"]
 [ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_pnjmv"]
@@ -10,7 +10,14 @@
 [ext_resource type="PackedScene" uid="uid://dtayfa2h71u78" path="res://scenes/enemies/red_demon/red_demon.tscn" id="7_34c8f"]
 [ext_resource type="PackedScene" uid="uid://buwe2l6riioss" path="res://scenes/menus/pause_menu.tscn" id="9_at714"]
 [ext_resource type="PackedScene" uid="uid://h5lvwtk1iolv" path="res://scenes/effects/light_test.tscn" id="10_dp4eq"]
-[ext_resource type="PackedScene" uid="uid://5ct3nlttjeto" path="res://scenes/enemies/flappa/flappa.tscn" id="11_u760l"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/flappa/flappa.tscn" id="11_u760l"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="12_r6vn4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rs7jm"]
+resource_local_to_scene = true
+shader = ExtResource("12_r6vn4")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
 
 [node name="Level01" type="Node2D"]
 script = ExtResource("1_pnjmv")
@@ -80,3 +87,13 @@ texture_scale = 2.7
 
 [node name="Flappa" parent="." instance=ExtResource("11_u760l")]
 position = Vector2(128, 192)
+
+[node name="AnimatedSprite2D" parent="Flappa" index="1"]
+material = SubResource("ShaderMaterial_rs7jm")
+
+[node name="PathFollow2D" parent="Flappa/Path2D" index="0"]
+position = Vector2(0, 0)
+rotation = 0.197396
+progress = 0.0
+
+[editable path="Flappa"]

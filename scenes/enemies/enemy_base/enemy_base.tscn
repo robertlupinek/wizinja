@@ -1,71 +1,56 @@
-[gd_scene load_steps=19 format=3 uid="uid://uaguu0l4cmg7"]
+[gd_scene load_steps=16 format=3 uid="uid://c6meohawab4rs"]
 
-[ext_resource type="Script" path="res://scripts/enemies/enemy_behavior.gd" id="1_wkb00"]
-[ext_resource type="PackedScene" uid="uid://bc0e15ad0s4fi" path="res://scenes/effects/particles/smoke_poof.tscn" id="2_3gsjh"]
-[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="3_5sfri"]
-[ext_resource type="Texture2D" uid="uid://dffnwj2vk6t6r" path="res://images/sprites/enemies/flappa.png" id="4_51wuv"]
-[ext_resource type="PackedScene" uid="uid://h0jvcuvtvb2j" path="res://scenes/enemies/behaviors/follow_path.tscn" id="5_jmm3a"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_behavior.gd" id="1_3peqq"]
+[ext_resource type="PackedScene" uid="uid://bc0e15ad0s4fi" path="res://scenes/effects/particles/smoke_poof.tscn" id="2_l01lr"]
+[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="3_qrnkt"]
+[ext_resource type="Texture2D" uid="uid://5hrwvjcmqhyf" path="res://images/sprites/enemies/BadRedDemon.png" id="4_ucgjc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vie4v"]
-size = Vector2(14, 16)
+size = Vector2(13, 26)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_umain"]
 resource_local_to_scene = true
-shader = ExtResource("3_5sfri")
+shader = ExtResource("3_qrnkt")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mibqm"]
-atlas = ExtResource("4_51wuv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8h33"]
+atlas = ExtResource("4_ucgjc")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_grpnp"]
-atlas = ExtResource("4_51wuv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfe6x"]
+atlas = ExtResource("4_ucgjc")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0hva0"]
-atlas = ExtResource("4_51wuv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvk8y"]
+atlas = ExtResource("4_ucgjc")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_472ac"]
-atlas = ExtResource("4_51wuv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_hq4tv"]
+atlas = ExtResource("4_ucgjc")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2jxy1"]
-atlas = ExtResource("4_51wuv")
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwrsb"]
+atlas = ExtResource("4_ucgjc")
 region = Rect2(128, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xnuc7"]
-atlas = ExtResource("4_51wuv")
-region = Rect2(160, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xleok"]
-atlas = ExtResource("4_51wuv")
-region = Rect2(192, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_yq1ui"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mibqm")
+"texture": SubResource("AtlasTexture_o8h33")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_grpnp")
+"texture": SubResource("AtlasTexture_kfe6x")
+}, {
+"duration": 1.7,
+"texture": SubResource("AtlasTexture_jvk8y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0hva0")
+"texture": SubResource("AtlasTexture_hq4tv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_472ac")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2jxy1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xnuc7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xleok")
+"texture": SubResource("AtlasTexture_rwrsb")
 }],
 "loop": true,
 "name": &"default",
@@ -106,22 +91,18 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5tx40"]
 size = Vector2(15, 27)
 
-[node name="Flappa" type="CharacterBody2D" groups=["enemies"]]
-light_mask = 0
+[node name="RedDemon" type="CharacterBody2D" groups=["enemies"]]
 z_index = -20
 collision_layer = 4
 collision_mask = 33
-script = ExtResource("1_wkb00")
-enemy_type = 1
-particle = ExtResource("2_3gsjh")
-gravity = 0.0
+script = ExtResource("1_3peqq")
+particle = ExtResource("2_l01lr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1, 0)
+position = Vector2(0.5, 3)
 shape = SubResource("RectangleShape2D_vie4v")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-light_mask = 0
 material = SubResource("ShaderMaterial_umain")
 sprite_frames = SubResource("SpriteFrames_yq1ui")
 frame_progress = 0.198764
@@ -148,13 +129,5 @@ collision_priority = 0.0
 position = Vector2(0.5, 2.5)
 shape = SubResource("RectangleShape2D_5tx40")
 debug_color = Color(0.833851, 0.348161, 0.46535, 0.42)
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(1.43051e-06, 9.53674e-07)
-scale = Vector2(1.6, 1.6)
-
-[node name="Path2D" parent="." instance=ExtResource("5_jmm3a")]
-loop = true
-continue_path = false
 
 [connection signal="body_entered" from="Area2DDamage" to="." method="_on_area_2d_damage_body_entered"]
