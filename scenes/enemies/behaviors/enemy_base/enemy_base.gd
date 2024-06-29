@@ -1,17 +1,12 @@
 extends CharacterBody2D
 
-enum EnemyType {
-	PATROLLER,
-	PATH_FOLLOWER
-}
-@export var enemy_type: = EnemyType.PATROLLER
-
 @export var speed = 50.0
-var jump_velocity = -400.0
 
+@export var death_particle: PackedScene
 @export var hp: float = 10
+@export var jump_velocity = -400.0
+
 var facing: int = 1
-@export var particle: PackedScene
 
 # Setup for taking damage
 var hurt_timer: Timer  = Timer.new()
@@ -22,20 +17,21 @@ var flash: bool = false
 # Dealing damage
 var dmg: float = 1
 
+# Animated Sprite
+var animated_sprite: AnimatedSprite2D
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 @export var gravity: float = 500
 
 func _ready():
+	
 	add_child(hurt_timer)
 	hurt_timer.one_shot = true
 	$AnimatedSprite2D.play("default")
+
 	
 
 func _physics_process(delta):
-
-	# IF a patroller type
-	if enemy_type == EnemyType.PATROLLER:
-		_patroller_behavior()
 
 	# Add the gravity.
 	velocity.y += gravity * delta
@@ -44,23 +40,20 @@ func _physics_process(delta):
 		$FlashAnimation.play("flash")
 	else:
 		$AnimatedSprite2D.material.set_shader_parameter("active",false)
-		$FlashAnimation.stop()			
+		$FlashAnimation.stop()
 	move_and_slide()
 
 func _flip():
 	# Flip the facing direction
 	facing = -facing
-	# Flip sprite and raycast for walls
-	$WallRayCast2D.target_position.x = -$WallRayCast2D.target_position.x
-	$FloorRayCast2D.target_position.x = -$FloorRayCast2D.target_position.x
+	# Flip sprite 
 	$AnimatedSprite2D.scale.x = -$AnimatedSprite2D.scale.x
-	velocity.x = -velocity.x
 	
 func _hurt(dmg_received: float):
 	if hurt_timer.is_stopped():
 		hurt_timer.start(hurt_time)
 	# Screen shake!
-	GameFx._screen_shake(0.02)
+	GameFx._screen_shake(0.2,0.25)
 	# Play sound effects and do special effects
 	# AudioManager._play(hurt_sound)
 	# Effects
@@ -70,39 +63,24 @@ func _hurt(dmg_received: float):
 	else:
 		hp = 0
 		_the_ending()
-			
+
 func _flash_sprite():
 	if flash == true: 
 		flash = false 
 	else: 
 		flash = true
-	$AnimatedSprite2D.material.set_shader_parameter("active",flash)				
-			
+	$AnimatedSprite2D.material.set_shader_parameter("active",flash)
+	$AnimatedSprite2D.material.set_shader_parameter("flash",true)
+
+
 func _the_ending():
-	var smoke = particle.instantiate()
+	var smoke = death_particle.instantiate()
 	var world = get_tree().current_scene  
-	smoke.position = position
+	smoke.position = global_position
 	smoke.scale.x = -scale.x
 	world.add_child(smoke)	
-	queue_free()
+	get_parent().queue_free()
 
 func _on_area_2d_damage_body_entered(body):
 	if body.is_in_group("player"):
 		body._hurt(dmg)
-
-func _patroller_behavior():
-
-	# Check for walls
-	if $WallRayCast2D.is_colliding():
-		var collider = $WallRayCast2D.get_collider()
-		if collider:
-			if not collider.is_in_group("player"):
-				_flip()
-		
-	# Check for gaps
-	if not $FloorRayCast2D.is_colliding():
-		_flip()
-	
-	# Walking Enemy	
-	velocity.x = facing * speed
-	$AnimatedSprite2D.play("default")	

@@ -134,17 +134,21 @@ func _physics_process(delta):
 			velocity.y = jump_velocity
 		coyote_timer.stop()
 	
+	# Swimming settings
 	if swimming:
 		friction = swim_friction
-		velocity.y += swim_gravity * delta
+		## Add the gravity if not dashing
+		if dash_timer.is_stopped():
+			velocity.y += swim_gravity * delta
 		coyote_timer.start(10)
 		speed = swim_speed
 	else:
 		## Handle all changes required for when landing on the floor or being midair.
 		if not is_on_floor():
 			## Midair
-			## Add the gravity.
-			velocity.y += gravity * delta
+			## Add the gravity if not dashing
+			if dash_timer.is_stopped():
+				velocity.y += gravity * delta
 			speed = air_speed
 			friction = air_friction
 			landed = false
@@ -332,7 +336,7 @@ func _hurt(dmg_received: float):
 		# Emit the signal in game state for injured player
 		GameState.emit_signal("player_hurt")
 		# Screen shake!
-		GameFx._screen_shake(0.02)
+		GameFx._screen_shake(0.02,0.2)
 		# Play sound effects and do special effects
 		AudioManager._play(hurt_sound)
 		velocity.y -= 50

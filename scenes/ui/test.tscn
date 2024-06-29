@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmp5w8p3ihfcd"]
+
+[ext_resource type="Script" path="res://scenes/ui/test.gd" id="1_w308b"]
+[ext_resource type="SpriteFrames" uid="uid://8hyayw66bd0r" path="res://scenes/player/ani_player.tres" id="2_xjk2p"]
+
+[node name="Test" type="Node2D"]
+script = ExtResource("1_w308b")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_xjk2p")
+animation = &"flip"

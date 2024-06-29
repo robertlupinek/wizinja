@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://uir2d0fubfdf"]
+
+[ext_resource type="Script" path="res://scenes/spawners/spawner.gd" id="1_d3mjj"]
+[ext_resource type="PackedScene" uid="uid://dtayfa2h71u78" path="res://scenes/enemies/red_demon/red_demon.tscn" id="2_pnw4d"]
+
+[node name="SpawnerLevel01" type="Node2D"]
+script = ExtResource("1_d3mjj")
+entity_layer = 1
+layer_time = null
+
+[node name="RedDemon" parent="." instance=ExtResource("2_pnw4d")]

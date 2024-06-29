@@ -1,8 +1,7 @@
 extends Path2D
+# Node you intend to move around with this path
+var base_body: CharacterBody2D
 
-var root_parent: CharacterBody2D
-# Position used to track and maintain position of Path2D globally
-var start_position: Vector2
 # Directions vector
 var direction: Vector2
 # Last position
@@ -10,10 +9,8 @@ var last_position: Vector2 = position
 
 # Speed to move along the path
 @export var speed: float = 50
-
 # Set loop or not for the path follow fella
 @export var  loop: bool = false
-
 # If not a looping path then just run the path again from current position
 @export var continue_path: bool = true
 # If the sprite should rotate with the path
@@ -25,17 +22,13 @@ signal path_complete
 func _ready():
 	$PathFollow2D.loop = loop
 	$PathFollow2D.rotates = rotates
-	root_parent = get_parent()
-	start_position = root_parent.global_position
-	last_position = position
+	base_body = get_node("../EnemyBase")
+	$PathFollow2D/RemoteTransform2D.remote_path = base_body.get_path()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
 	
 	$PathFollow2D.progress += speed * delta	
-	# Reset current position to the start position.
-	# The start_poition is set set on _ready and if continue_path is true
-	global_position = start_position
 	# Get direction
 	_get_direction()
 	# When path end
@@ -44,9 +37,6 @@ func _physics_process(delta):
 		# Restart path from where path ends if continue_path is set
 		if continue_path:
 			_continue_path()
-	
-	root_parent.position = $PathFollow2D.global_position
-	root_parent.rotation = $PathFollow2D.rotation
 
 func _get_direction():
 	pass
@@ -54,8 +44,8 @@ func _get_direction():
 func _continue_path():
 	# Keep following that path baby!  That is, if your path doesn't loop.  Cause just loop, right?
 	if !$PathFollow2D.loop:
-		# Reset the start position used to calculate origin to current global position.
-		# The path2d_transform_parent.gd script uses this variable to it's parent along the PathFollow2d
-		start_position = $PathFollow2D.global_position
-		# Set the path to start again from the end
+		# Reset the position to the last position of the PathFollow2d.
+		global_position = $PathFollow2D.global_position
+		# base_body.global_position = global_position
+		# Set the path to start again from the beginning 
 		$PathFollow2D.progress_ratio = 0

@@ -15,7 +15,6 @@
 size = Vector2(6, 16)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qbnsu"]
-resource_local_to_scene = true
 shader = ExtResource("1_r4wub")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
