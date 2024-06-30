@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://blgtnxl5k5tgo"]
+[gd_scene load_steps=7 format=3 uid="uid://blgtnxl5k5tgo"]
 
 [ext_resource type="Texture2D" uid="uid://6janjxlgq63p" path="res://images/textures/fat_dash.png" id="1_pdy4o"]
 [ext_resource type="Script" path="res://scripts/timers/destroy_timer.gd" id="2_bpjjb"]
@@ -12,15 +12,19 @@ max_value = 2.0
 _data = [Vector2(0.00967118, 0.287759), 0.0, 0.0, 0, 0, Vector2(0.404255, 0.576235), 0.0, 0.0, 0, 0, Vector2(1, 1.40444), 0.0, 0.0, 0, 0]
 point_count = 3
 
+[sub_resource type="Gradient" id="Gradient_mwn7s"]
+colors = PackedColorArray(1, 1, 1, 0.909804, 0, 0, 0, 0.47451)
+
 [sub_resource type="Gradient" id="Gradient_afuwt"]
 offsets = PackedFloat32Array(0, 0.198364, 0.357873, 0.560327, 0.787321, 1)
-colors = PackedColorArray(0, 0.596078, 0.713726, 0, 0, 0.596078, 0.713726, 1, 0.923568, 0.436881, 0.701822, 0.890196, 0.956863, 0.682353, 0.219608, 0.729412, 0.396078, 0.847059, 0.623529, 0.882353, 1, 1, 1, 0)
+colors = PackedColorArray(0.584314, 0.541176, 0.227451, 0.827451, 0, 0.596078, 0.713726, 0.745098, 0.923568, 0.436881, 0.701822, 0.890196, 0.956863, 0.682353, 0.219608, 0.729412, 0.396078, 0.847059, 0.623529, 0.882353, 1, 1, 1, 0.556863)
 
 [node name="SpawnParticles" type="CPUParticles2D"]
+amount = 16
 lifetime = 0.4
 texture = ExtResource("1_pdy4o")
 emission_shape = 2
-emission_sphere_radius = 28.04
+emission_sphere_radius = 22.31
 particle_flag_align_y = true
 gravity = Vector2(0, 0)
 radial_accel_min = -200.0
@@ -30,5 +34,6 @@ scale_amount_max = 2.0
 split_scale = true
 scale_curve_x = SubResource("Curve_4608d")
 scale_curve_y = SubResource("Curve_1367t")
+color_ramp = SubResource("Gradient_mwn7s")
 color_initial_ramp = SubResource("Gradient_afuwt")
 script = ExtResource("2_bpjjb")

@@ -8,14 +8,14 @@ uniform bool active = false; //Activate shader
 uniform bool flash = false; //Activate shader
 uniform vec3 flash_color : source_color = vec3(1.0);
 //Ghost Outline effects
-uniform bool shain = false; //Activate the rainbow or select you color
+uniform bool shain = true; //Activate the rainbow or select you color
 uniform bool onecolor = false; //Activate the rainbow or select you color
 uniform vec4 line_color : source_color = vec4(1.0, 1.0, 1.0, 1.0); //color line
-uniform float line_scale : hint_range(0, 1.5) = 1.0;    // thickness of the line
-uniform float shadow : hint_range(0, 1.6) = 1.6;    // shadow lenght
-uniform float shadow_mult : hint_range(0, 1.6) = 1.6;    // shadow alpha
-uniform float frequency : hint_range(0.0, 5.0) = 2;  // frequency of the shine
-uniform float transparency: hint_range(0.0, 5.0) = 0;  // transparency of shadow/if you use a onecolor please up the transparency
+uniform float line_scale : hint_range(0, 1.5) = 0.5;    // thickness of the line
+uniform float shadow : hint_range(0, 1.6) = 1;    // shadow lenght
+uniform float shadow_mult : hint_range(0, 1.6) = 1;    // shadow alpha
+uniform float frequency : hint_range(0.0, 5.0) = 0.75;  // frequency of the shine
+uniform float transparency: hint_range(0.0, 5.0) = 0.25;  // transparency of shadow/if you use a onecolor please up the transparency
 
 
 

@@ -1,9 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtayfa2h71u78"]
+[gd_scene load_steps=14 format=3 uid="uid://dtayfa2h71u78"]
 
 [ext_resource type="Texture2D" uid="uid://5hrwvjcmqhyf" path="res://images/sprites/enemies/BadRedDemon.png" id="1_3s7d8"]
 [ext_resource type="PackedScene" uid="uid://1e2xj2gm6yb8" path="res://scenes/enemies/behaviors/enemy_base/enemy_base.tscn" id="1_jrqrd"]
 [ext_resource type="Script" path="res://scenes/enemies/spawners/spawnable.gd" id="1_r6lh6"]
-[ext_resource type="Shader" path="res://shaders/ghost_shine.gdshader" id="3_ieb2w"]
+[ext_resource type="PackedScene" uid="uid://blgtnxl5k5tgo" path="res://scenes/effects/particles/spawn_particles.tscn" id="2_gbf8m"]
 [ext_resource type="PackedScene" uid="uid://bqt50xkq6qypy" path="res://scenes/enemies/behaviors/patroller/patroller.tscn" id="4_b3bkf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_27mcf"]
@@ -13,21 +13,6 @@ size = Vector2(14, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lctsr"]
 resource_local_to_scene = true
 size = Vector2(14, 26)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_j8ysb"]
-resource_local_to_scene = true
-shader = ExtResource("3_ieb2w")
-shader_parameter/active = true
-shader_parameter/flash = false
-shader_parameter/flash_color = Color(1, 1, 1, 1)
-shader_parameter/shain = true
-shader_parameter/onecolor = false
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_scale = 0.5
-shader_parameter/shadow = 1.0
-shader_parameter/shadow_mult = 1.0
-shader_parameter/frequency = 1.5
-shader_parameter/transparency = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8djr"]
 atlas = ExtResource("1_3s7d8")
@@ -75,6 +60,7 @@ animations = [{
 [node name="RedDemon" type="Node2D"]
 use_parent_material = true
 script = ExtResource("1_r6lh6")
+spawn_particles = ExtResource("2_gbf8m")
 
 [node name="EnemyBase" parent="." instance=ExtResource("1_jrqrd")]
 speed = 30.0
@@ -88,7 +74,6 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_lctsr")
 
 [node name="AnimatedSprite2D" parent="EnemyBase" index="4"]
-material = SubResource("ShaderMaterial_j8ysb")
 sprite_frames = SubResource("SpriteFrames_5emav")
 
 [node name="Patroller" parent="." instance=ExtResource("4_b3bkf")]

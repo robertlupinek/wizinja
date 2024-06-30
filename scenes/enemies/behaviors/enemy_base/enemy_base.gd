@@ -1,11 +1,15 @@
 extends CharacterBody2D
 
+class_name EnemyBase
+
 @export var speed = 50.0
 
 @export var death_particle: PackedScene
 @export var hp: float = 10
 @export var jump_velocity = -400.0
 
+# Facing represents the x direction the enemy is facing.
+# Usable for as multiplier for scale, where to position bullets or anything like that
 var facing: int = 1
 
 # Setup for taking damage
@@ -16,9 +20,6 @@ var flash: bool = false
 
 # Dealing damage
 var dmg: float = 1
-
-# Animated Sprite
-var animated_sprite: AnimatedSprite2D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 @export var gravity: float = 500

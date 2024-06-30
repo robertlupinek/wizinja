@@ -4,7 +4,7 @@ extends Node2D
 # There are certain methods or functions only available in that scene's scripts.
 
 # Base node of this enemy object
-var base_body: CharacterBody2D
+var base_body: EnemyBase
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

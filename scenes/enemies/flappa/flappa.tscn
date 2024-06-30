@@ -1,7 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://uaguu0l4cmg7"]
 
 [ext_resource type="PackedScene" uid="uid://1e2xj2gm6yb8" path="res://scenes/enemies/behaviors/enemy_base/enemy_base.tscn" id="1_t5lt8"]
-[ext_resource type="Shader" path="res://shaders/ghost_shine.gdshader" id="2_8380p"]
+[ext_resource type="Script" path="res://scenes/enemies/spawners/spawnable.gd" id="1_v2qdo"]
+[ext_resource type="PackedScene" uid="uid://blgtnxl5k5tgo" path="res://scenes/effects/particles/spawn_particles.tscn" id="2_anvhi"]
 [ext_resource type="Texture2D" uid="uid://dffnwj2vk6t6r" path="res://images/sprites/enemies/flappa.png" id="4_51wuv"]
 [ext_resource type="PackedScene" uid="uid://h0jvcuvtvb2j" path="res://scenes/enemies/behaviors/follow_path/follow_path.tscn" id="4_nqkcg"]
 
@@ -12,21 +13,6 @@ size = Vector2(14, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7xtt6"]
 resource_local_to_scene = true
 size = Vector2(14, 14)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_15hbm"]
-resource_local_to_scene = true
-shader = ExtResource("2_8380p")
-shader_parameter/active = true
-shader_parameter/flash = false
-shader_parameter/flash_color = Color(0.937255, 0.921569, 0.462745, 1)
-shader_parameter/shain = true
-shader_parameter/onecolor = false
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_scale = 0.5
-shader_parameter/shadow = 1.0
-shader_parameter/shadow_mult = 1.0
-shader_parameter/frequency = 1.5
-shader_parameter/transparency = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xdwdx"]
 atlas = ExtResource("4_51wuv")
@@ -93,6 +79,8 @@ _data = {
 point_count = 18
 
 [node name="Flappa" type="Node2D"]
+script = ExtResource("1_v2qdo")
+spawn_particles = ExtResource("2_anvhi")
 
 [node name="EnemyBase" parent="." instance=ExtResource("1_t5lt8")]
 
@@ -109,12 +97,12 @@ position = Vector2(1.43051e-06, 0.500001)
 scale = Vector2(1.6, 1.55)
 
 [node name="AnimatedSprite2D" parent="EnemyBase" index="4"]
-material = SubResource("ShaderMaterial_15hbm")
 sprite_frames = SubResource("SpriteFrames_wxv6g")
 
 [node name="FollowPath" parent="." instance=ExtResource("4_nqkcg")]
 curve = SubResource("Curve2D_hen2f")
 loop = true
 continue_path = false
+flip_x = true
 
 [editable path="EnemyBase"]

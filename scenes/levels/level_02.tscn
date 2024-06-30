@@ -75,18 +75,22 @@ position = Vector2(424, 16)
 [node name="Spawner" parent="." instance=ExtResource("8_81lu6")]
 
 [node name="Node2D" type="Node2D" parent="Spawner"]
+visible = false
 
 [node name="RedDemon" parent="Spawner/Node2D" instance=ExtResource("8_vb03i")]
-position = Vector2(240, 80)
+position = Vector2(144, 96)
 
 [node name="RedDemon2" parent="Spawner/Node2D" instance=ExtResource("8_vb03i")]
 position = Vector2(120, 32)
 
 [node name="RedDemon3" parent="Spawner/Node2D" instance=ExtResource("8_vb03i")]
-position = Vector2(264, 32)
+position = Vector2(240, 80)
 
 [node name="Node2D2" type="Node2D" parent="Spawner"]
 z_index = 1
+
+[node name="RedDemon" parent="Spawner/Node2D2" instance=ExtResource("8_vb03i")]
+position = Vector2(240, 78)
 
 [node name="Flappa" parent="Spawner/Node2D2" instance=ExtResource("6_yq4a4")]
 position = Vector2(24, 56)
@@ -98,9 +102,10 @@ position = Vector2(24, 86)
 position = Vector2(23, 128)
 
 [node name="RedDemon2" parent="Spawner/Node2D2" instance=ExtResource("8_vb03i")]
-position = Vector2(240, 80)
+position = Vector2(64, 112)
 
 [node name="Node2D3" type="Node2D" parent="Spawner"]
+visible = false
 z_index = 2
 
 [node name="RedDemon" parent="Spawner/Node2D3" instance=ExtResource("8_vb03i")]
@@ -116,6 +121,6 @@ position = Vector2(64, 112)
 position = Vector2(23, 32)
 
 [node name="RedDemon3" parent="." instance=ExtResource("8_vb03i")]
-position = Vector2(312, 32)
+position = Vector2(184, 32)
 
 [editable path="Player"]
