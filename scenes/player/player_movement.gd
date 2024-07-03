@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 # Signals
 signal hurt
 
@@ -19,7 +18,6 @@ signal hurt
 @export var max_swim_velocity_y: float = 80
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 @export var gravity : float = 600 # ProjectSettings.get_setting("physics/2d/default_gravity")
-
 
 # Current Speed
 var speed: float = ground_speed
@@ -60,10 +58,11 @@ var dash_delay_timer: Timer  = Timer.new()
 ## Velocity to dash during dash_time
 @export var dash_speed: float = 200
 var dash_line_timer: Timer  = Timer.new()
+var dash_line
 var dash_line_time: float = 0.1
 
 # Bullets
-var bullet_star_shot: PackedScene = preload("res://scenes/bullets/bullet_star_shot.tscn")
+var bullet_star_shot: PackedScene = preload("res://scenes/bullets/player/bullet_star_shot.tscn")
 
 # Sounds
 @export var jump_sound = AudioStream
@@ -203,7 +202,7 @@ func _physics_process(delta):
 		else:
 			velocity.x = move_toward(velocity.x, 0, friction)
 		# Normal collisions
-		set_collision_layer_value(2,true)
+		set_collision_layer_value(3,true)
 		
 
 
@@ -249,12 +248,16 @@ func _physics_process(delta):
 		# Only dash if the dash delay time is stopped
 		if dash_delay_timer.is_stopped():
 			# Disable ability for things to collide with player
-			set_collision_layer_value(2,false)
+			set_collision_layer_value(3,false)
+			get_collision_layer
 			velocity.y = 0
-			# Start drawing the line 
+			# Start drawing the lines
 			$Line2DDash.clear_points()
 			$Line2DDash.global_position = Vector2(0,0)
-			$Line2DDash.add_point(global_position)			
+			$Line2DDash.add_point(global_position)		
+			$Line2DDash2.clear_points()
+			$Line2DDash2.global_position = Vector2(0,-5)
+			$Line2DDash2.add_point(global_position)					
 			
 			dash_delay_timer.start(dash_delay_time)
 			dash_timer.start(dash_time)
@@ -272,12 +275,16 @@ func _physics_process(delta):
 		$Line2DDash.global_position = Vector2(0,0)
 		$Line2DDash.add_point(global_position)
 		$Line2DDash.visible = true
+		$Line2DDash2.global_position = Vector2(0,-5)
+		$Line2DDash2.add_point(global_position)
+		$Line2DDash2.visible = true		
 	else:
-		if $Line2DDash.get_point_count() > 0:
+		# Reduce length of dashline
+		if $Line2DDash.get_point_count():
 			$Line2DDash.remove_point(0)
-			
+		if $Line2DDash2.get_point_count():
+			$Line2DDash2.remove_point(0)			
 
-		
 	# Shooting
 	if Input.is_action_just_pressed("ui_attack_1"):
 		_shoot(bullet_star_shot)
@@ -308,8 +315,12 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	# Set a fall max - can be removed maybe?
-	if position.y >= $CameraInGame.limit_bottom:
-		_the_ending()
+	if position.y - 5 >= $CameraInGame.limit_bottom:
+		## You fell off the screen!
+		## Bounce back up and ALWAYS hand out 1 damage point.  Sorry :P
+		velocity.y = -200
+		hurt_timer.stop()
+		_hurt(1)
 		
 	# Debug info
 	

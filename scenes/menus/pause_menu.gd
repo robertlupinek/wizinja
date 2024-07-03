@@ -40,5 +40,7 @@ func _on_unpause_pressed():
 func _on_quit_pressed():
 	# Unpause everything in the tree according to it's process mod	
 	get_tree().paused = false
+	# Unpause shaders
+	Engine.time_scale = 1	
 	# Return to the main menu
 	get_tree().change_scene_to_file("res://scenes/menus/main_menu.tscn")

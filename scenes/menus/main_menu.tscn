@@ -70,7 +70,7 @@ grow_vertical = 2
 theme_override_fonts/normal_font = ExtResource("2_1nvai")
 theme_override_font_sizes/normal_font_size = 120
 bbcode_enabled = true
-text = "[center][pulse freq=1 color=#ffffff40 ease=-1.0]WIZINJA[/pulse][/center]
+text = "[center][pulse freq=1 color=#ffffff40 ease=-1.0]DEAD NINJA[/pulse][/center]
 
 "
 

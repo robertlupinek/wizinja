@@ -1,34 +1,140 @@
-[gd_scene load_steps=14 format=3 uid="uid://c48a3wfbusgbd"]
+[gd_scene load_steps=17 format=3 uid="uid://c48a3wfbusgbd"]
 
+[ext_resource type="Script" path="res://scenes/levels/level_container/level_container.gd" id="1_0sgvq"]
 [ext_resource type="PackedScene" uid="uid://cqbli6dcf6sj8" path="res://scenes/tilesets/tilemap_01.tscn" id="1_j3076"]
-[ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_pnjmv"]
+[ext_resource type="PackedScene" uid="uid://bhimnxnuomtk1" path="res://scenes/levels/level_container/level_start_scenes/ready_go.tscn" id="2_2timl"]
 [ext_resource type="PackedScene" uid="uid://dd64m2gtmdvrw" path="res://scenes/player/player.tscn" id="2_iiik1"]
 [ext_resource type="PackedScene" uid="uid://bh0yyjt6naxkq" path="res://scenes/cameras/world_boundary.tscn" id="3_822pm"]
 [ext_resource type="PackedScene" uid="uid://l7ym8wptylko" path="res://scenes/effects/water/water_body.tscn" id="4_y8j07"]
-[ext_resource type="PackedScene" uid="uid://bjfh2ykpylvt" path="res://scenes/music/song_desert.tscn" id="5_y8ev4"]
 [ext_resource type="PackedScene" uid="uid://dx683gjesmtug" path="res://scenes/ui/hud.tscn" id="6_rucyd"]
 [ext_resource type="PackedScene" uid="uid://dtayfa2h71u78" path="res://scenes/enemies/red_demon/red_demon.tscn" id="7_34c8f"]
 [ext_resource type="PackedScene" uid="uid://buwe2l6riioss" path="res://scenes/menus/pause_menu.tscn" id="9_at714"]
 [ext_resource type="PackedScene" uid="uid://h5lvwtk1iolv" path="res://scenes/effects/light_test.tscn" id="10_dp4eq"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/flappa/flappa.tscn" id="11_u760l"]
-[ext_resource type="Shader" path="res://shaders/flash.gdshader" id="12_r6vn4"]
+[ext_resource type="PackedScene" uid="uid://uaguu0l4cmg7" path="res://scenes/enemies/flappa/flappa.tscn" id="11_u760l"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rs7jm"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7yf0d"]
 resource_local_to_scene = true
-shader = ExtResource("12_r6vn4")
+size = Vector2(14, 14)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bk60t"]
+resource_local_to_scene = true
+size = Vector2(14, 14)
+
+[sub_resource type="Shader" id="Shader_007nu"]
+resource_local_to_scene = true
+code = "/* 
+@LURGX 2024 ghost shine
+*/
+shader_type canvas_item;
+
+uniform bool active = false; //Activate shader
+//Flash effects
+uniform bool flash = false; //Activate shader
+uniform vec3 flash_color : source_color = vec3(1.0);
+//Ghost Outline effects
+uniform bool shain = true; //Activate the rainbow or select you color
+uniform bool onecolor = false; //Activate the rainbow or select you color
+uniform vec4 line_color : source_color = vec4(1.0, 1.0, 1.0, 1.0); //color line
+uniform float line_scale : hint_range(0, 1.5) = 0.5;    // thickness of the line
+uniform float shadow : hint_range(0, 1.6) = 1;    // shadow lenght
+uniform float shadow_mult : hint_range(0, 1.6) = 1;    // shadow alpha
+uniform float frequency : hint_range(0.0, 5.0) = 0.75;  // frequency of the shine
+uniform float transparency: hint_range(0.0, 5.0) = 0.25;  // transparency of shadow/if you use a onecolor please up the transparency
+
+
+
+void fragment() {
+	if ( active == true ){
+		if ( flash == true ){
+			vec4 t = texture(TEXTURE, UV);
+			if (active == true) {
+				COLOR = vec4(flash_color, t.a);
+			}
+		}
+		else
+		{
+			float alpha = 0.6;
+			vec2 size = TEXTURE_PIXEL_SIZE * line_scale;
+			float outline = texture(TEXTURE, UV + vec2(-size.x, 0)).a;
+			outline += texture(TEXTURE, UV + vec2(0, size.y)).a;
+			outline += texture(TEXTURE, UV + vec2(size.x, 0)).a;
+			outline += texture(TEXTURE, UV + vec2(0, -size.y)).a;
+			outline += texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
+			outline += texture(TEXTURE, UV + vec2(size.x, size.y)).a;
+			outline += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
+			outline += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
+			outline = min(outline, shadow*shadow_mult);
+
+			vec4 animated_line_color = vec4(0.5 + sin(2.0*3.14*frequency*TIME),
+									   0.5 + sin(2.0*3.14*frequency*TIME + radians(120.0)) +transparency,
+									   0.5 + sin(2.0*3.14*frequency*TIME + radians(240.0)),
+									   alpha );
+		//							   alpha + cos(2.0*3.14*frequency*TIME + radians(240.0)));
+			vec4 one_color = vec4(line_color.r,line_color.g,line_color.b,0) + vec4(line_color.r * sin(frequency*2.0*TIME) + line_color.r-0.2,
+									   line_color.g * sin(frequency*2.0*TIME) + line_color.g-0.2,
+									   line_color.b * sin(frequency*2.0*TIME) + line_color.b-0.2,
+									   alpha );
+
+
+			vec4 animated = vec4(line_color.r ,
+									   line_color.g,
+									   line_color.b,
+									   alpha);
+
+
+
+
+			vec4 color = texture(TEXTURE, UV);
+
+			if (onecolor == true){
+				COLOR = mix(color,one_color*transparency,outline+color.a);
+			}
+
+
+			if (shain == true && onecolor == false){
+				COLOR = mix(color,animated_line_color, outline + color.a);
+				
+			}
+			else if (shain == false && onecolor == false){
+				COLOR = mix(color,animated, outline + color.a);
+			}
+		}
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rnyyr"]
+resource_local_to_scene = true
+shader = SubResource("Shader_007nu")
 shader_parameter/active = false
-shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(0.996078, 0.431373, 0, 1)
+shader_parameter/shain = true
+shader_parameter/onecolor = false
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_scale = 0.5
+shader_parameter/shadow = 1.0
+shader_parameter/shadow_mult = 1.0
+shader_parameter/frequency = 0.75
+shader_parameter/transparency = 0.25
+
+[sub_resource type="Curve2D" id="Curve2D_hen2f"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, -8, 0, 0, 0, 0, 64, 8, 0, 0, 0, 0, 96, 0, 0, 0, 0, 0, 120, -8, 0, 0, 0, 0, 160, 8, 0, 0, 0, 0, 184, 8, 0, 0, 0, 0, 208, -8, 0, 0, 0, 0, 240, -8, 0, 0, 0, 0, 272, 0, 0, 0, 0, 0, 240, 8, 0, 0, 0, 0, 216, 8, 0, 0, 0, 0, 208, 8, 0, 0, 0, 0, 176, -8, 0, 0, 0, 0, 112, 8, 0, 0, 0, 0, 64, -8, 0, 0, 0, 0, 32, 8, 0, 0, 0, 0, 0, 0)
+}
+point_count = 18
 
 [node name="Level01" type="Node2D"]
-script = ExtResource("1_pnjmv")
+script = ExtResource("1_0sgvq")
+read_go_scene = ExtResource("2_2timl")
 set_scene_as_checkpoint = true
 
 [node name="Player" parent="." instance=ExtResource("2_iiik1")]
-position = Vector2(224, 200)
+position = Vector2(280, 216)
 
 [node name="TileMap01" parent="." instance=ExtResource("1_j3076")]
 position = Vector2(256, 208)
-layer_0/tile_data = PackedInt32Array(393207, 65536, 0, 393208, 0, 0, 393209, 65536, 0, 393210, 0, 0, 393211, 0, 0, 393212, 65536, 0, 327677, 0, 0, 393213, 0, 0, 327678, 0, 0, 393214, 0, 0, 327679, 65536, 0, 393215, 0, 0, 262144, 131072, 1, 327680, 0, 0, 262145, 65536, 1, 327681, 0, 0, 262146, 131072, 1, 327682, 0, 0, 262147, 0, 0, 327683, 65536, 0, 262148, 0, 0, 327684, 0, 0, 262149, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, -196617, 0, 0, -196616, 0, 0, -196615, 0, 0, -196614, 0, 0, -196613, 0, 0, -196612, 0, 0, -196611, 0, 0, -196610, 65536, 1, -196609, 131072, 1, -262144, 0, 1, -262143, 0, 1, -262142, 131072, 1, -262141, 65536, 1, -262140, 0, 0, -262139, 65536, 0, -262138, 0, 0, -262137, 0, 0, -262136, 65536, 0, -262135, 0, 0, -262134, 0, 0, -131078, 65536, 0, -65542, 0, 0, -6, 0, 0, -131079, 0, 0, -196601, 0, 0, -131065, 0, 0, -65529, 0, 0, -196600, 0, 0, 262141, 196608, 0, 262142, 0, 0, 262143, 131072, 1, 196608, 65536, 1, 196609, 65536, 1, 196610, 65536, 1, 196611, 131072, 1, 196612, 0, 0, 196613, 131072, 0, 196606, 196608, 0, 196607, 0, 0, 131072, 131072, 1, 131073, 65536, 1, 131074, 131072, 1, 131075, 0, 0, 131076, 131072, 0, 262150, 131072, 0, 327676, 196608, 0, 262151, 0, 2, 262153, 131072, 2, 262152, 65536, 2, 327674, 0, 3, 327675, 65536, 2, 327673, 131072, 2, 327672, 131072, 2, 327671, 0, 2, 262154, 131072, 2, 65533, 262144, 0, 65534, 262144, 0, 3, 262144, 0, 4, 262144, 0)
+layer_0/tile_data = PackedInt32Array(393207, 65536, 0, 393208, 0, 0, 393209, 65536, 0, 393210, 0, 0, 393211, 0, 0, 393212, 65536, 0, 327677, 0, 0, 393213, 0, 0, 327678, 0, 0, 393214, 0, 0, 327679, 65536, 0, 393215, 0, 0, 262144, 131072, 1, 327680, 0, 0, 262145, 65536, 1, 327681, 0, 0, 262146, 131072, 1, 327682, 0, 0, 262147, 0, 0, 327683, 65536, 0, 262148, 0, 0, 327684, 0, 0, 262149, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, -196617, 0, 0, -196616, 0, 0, -196615, 0, 0, -196614, 0, 0, -196613, 0, 0, -196612, 0, 0, -196611, 0, 0, -196610, 65536, 1, -196609, 131072, 1, -262144, 0, 1, -262143, 0, 1, -262142, 131072, 1, -262141, 65536, 1, -262140, 0, 0, -262139, 65536, 0, -262138, 0, 0, -262137, 0, 0, -262136, 65536, 0, -262135, 0, 0, -262134, 0, 0, -131078, 65536, 0, -65542, 0, 0, -6, 0, 0, -131079, 0, 0, -196601, 0, 0, -131065, 0, 0, -65529, 0, 0, -196600, 0, 0, 262141, 196608, 0, 262142, 0, 0, 262143, 131072, 1, 196608, 65536, 1, 196609, 65536, 1, 196610, 65536, 1, 196611, 131072, 1, 196612, 0, 0, 196613, 131072, 0, 196606, 196608, 0, 196607, 0, 0, 131072, 131072, 1, 131073, 65536, 1, 131074, 131072, 1, 131075, 0, 0, 131076, 131072, 0, 262150, 131072, 0, 327676, 196608, 0, 262151, 0, 2, 262153, 131072, 2, 262152, 65536, 2, 327674, 0, 3, 327675, 65536, 2, 327673, 131072, 2, 327672, 131072, 2, 327671, 0, 2, 262154, 131072, 2, 65533, 262144, 0, 65534, 262144, 0, 3, 262144, 0, 4, 262144, 0, 65537, 65536, 0, 65536, 65536, 0, 65538, 65536, 0)
 layer_1/modulate = Color(0.0139855, 0.15836, 0.142724, 1)
 layer_1/tile_data = PackedInt32Array(-196617, 196608, 2, -131081, 196608, 2, -65545, 196608, 2, -9, 196608, 2, 65527, 196608, 2, 131063, 196608, 2, 196599, 196608, 2, 262135, 196608, 2, 327671, 196608, 2, 393207, 196608, 2, -196616, 196608, 2, -131080, 196608, 2, -65544, 196608, 2, -8, 196608, 2, 65528, 196608, 2, 131064, 196608, 2, 196600, 196608, 2, 262136, 196608, 2, 327672, 196608, 2, 393208, 196608, 2, -196615, 196608, 2, -131079, 196608, 2, -65543, 196608, 2, -7, 196608, 2, 65529, 196608, 2, 131065, 196608, 2, 196601, 196608, 2, 262137, 196608, 2, 327673, 196608, 2, 393209, 196608, 2, -196614, 196608, 2, -131078, 196608, 2, -65542, 196608, 2, -6, 196608, 2, 65530, 196608, 2, 131066, 196608, 2, 196602, 196608, 2, 262138, 196608, 2, 327674, 196608, 2, 393210, 196608, 2, -196613, 196608, 2, -131077, 196608, 2, -65541, 196608, 2, -5, 196608, 2, 65531, 196608, 2, 131067, 196608, 2, 196603, 196608, 2, 262139, 196608, 2, 327675, 196608, 2, 393211, 196608, 2, -196612, 196608, 2, -131076, 196608, 2, -65540, 196608, 2, 131068, 196608, 2, 196604, 196608, 2, 262140, 196608, 2, 327676, 196608, 2, 393212, 196608, 2, -196611, 196608, 2, -131075, 196608, 2, -65539, 196608, 2, -3, 196608, 2, 65533, 196608, 2, 131069, 196608, 2, 196605, 196608, 2, 262141, 196608, 2, 327677, 196608, 2, 393213, 196608, 2, -196610, 196608, 2, -131074, 196608, 2, -65538, 196608, 2, -2, 196608, 2, 65534, 196608, 2, 131070, 196608, 2, 196606, 196608, 2, 262142, 196608, 2, 327678, 196608, 2, 393214, 196608, 2, -196609, 196608, 2, -131073, 196608, 2, -65537, 196608, 2, 131071, 196608, 2, 196607, 196608, 2, 262143, 196608, 2, 327679, 196608, 2, 393215, 196608, 2, -262144, 196608, 2, -196608, 196608, 2, -131072, 196608, 2, 65536, 196608, 2, 131072, 196608, 2, 196608, 196608, 2, 262144, 196608, 2, 327680, 196608, 2, -262143, 196608, 2, -196607, 196608, 2, -131071, 196608, 2, 65537, 196608, 2, 131073, 196608, 2, 196609, 196608, 2, 262145, 196608, 2, 327681, 196608, 2, -262142, 196608, 2, -196606, 196608, 2, -131070, 196608, 2, 65538, 196608, 2, 131074, 196608, 2, 196610, 196608, 2, 262146, 196608, 2, 327682, 196608, 2, -262141, 196608, 2, -196605, 196608, 2, -131069, 196608, 2, -65533, 196608, 2, 3, 196608, 2, 65539, 196608, 2, 131075, 196608, 2, 196611, 196608, 2, 262147, 196608, 2, 327683, 196608, 2, -262140, 196608, 2, -196604, 196608, 2, -131068, 196608, 2, -65532, 196608, 2, 4, 196608, 2, 65540, 196608, 2, 131076, 196608, 2, 196612, 196608, 2, 262148, 196608, 2, 327684, 196608, 2, -262139, 196608, 2, -196603, 196608, 2, -131067, 196608, 2, 65541, 196608, 2, 131077, 196608, 2, 196613, 196608, 2, 262149, 196608, 2, 327685, 196608, 2, -262138, 196608, 2, -196602, 196608, 2, -131066, 196608, 2, -65530, 196608, 2, 6, 196608, 2, 65542, 196608, 2, 131078, 196608, 2, 196614, 196608, 2, 262150, 196608, 2, 327686, 196608, 2, -262137, 196608, 2, -196601, 196608, 2, -131065, 196608, 2, -65529, 196608, 2, 7, 196608, 2, 65543, 196608, 2, 131079, 196608, 2, 196615, 196608, 2, 262151, 196608, 2, 327687, 196608, 2, -262136, 196608, 2, -196600, 196608, 2, -131064, 196608, 2, -65528, 196608, 2, 8, 196608, 2, 65544, 196608, 2, 131080, 196608, 2, 196616, 196608, 2, 262152, 196608, 2, 327688, 196608, 2, -262135, 196608, 2, -196599, 196608, 2, -131063, 196608, 2, -65527, 196608, 2, 9, 196608, 2, 65545, 196608, 2, 131081, 196608, 2, 196617, 196608, 2, 262153, 196608, 2, 327689, 196608, 2, -262134, 196608, 2, -196598, 196608, 2, -131062, 196608, 2, -65526, 196608, 2, 10, 196608, 2, 65546, 196608, 2, 131082, 196608, 2, 196618, 196608, 2, 262154, 196608, 2, 327690, 196608, 2)
 
@@ -41,20 +147,12 @@ offset_bottom = 304.0
 
 [node name="WaterBody" parent="." instance=ExtResource("4_y8j07")]
 offset_left = 112.0
-offset_top = 280.0
+offset_top = 248.0
 offset_right = 432.0
 offset_bottom = 305.0
 
-[node name="DarkSong" parent="." instance=ExtResource("5_y8ev4")]
-position = Vector2(-56, 16)
-
 [node name="Hud" parent="." instance=ExtResource("6_rucyd")]
-
-[node name="RedDemon" parent="." instance=ExtResource("7_34c8f")]
-position = Vector2(144, 264)
-
-[node name="RedDemon2" parent="." instance=ExtResource("7_34c8f")]
-position = Vector2(416, 264)
+visible = true
 
 [node name="PauseMenu" parent="." instance=ExtResource("9_at714")]
 
@@ -88,12 +186,24 @@ texture_scale = 2.7
 [node name="Flappa" parent="." instance=ExtResource("11_u760l")]
 position = Vector2(128, 192)
 
-[node name="AnimatedSprite2D" parent="Flappa" index="1"]
-material = SubResource("ShaderMaterial_rs7jm")
+[node name="CollisionShape2D" parent="Flappa/EnemyBase" index="0"]
+shape = SubResource("RectangleShape2D_7yf0d")
 
-[node name="PathFollow2D" parent="Flappa/Path2D" index="0"]
-position = Vector2(0, 0)
-rotation = 0.197396
-progress = 0.0
+[node name="CollisionShape2D" parent="Flappa/EnemyBase/Area2DDamage" index="0"]
+shape = SubResource("RectangleShape2D_bk60t")
+
+[node name="AnimatedSprite2D" parent="Flappa/EnemyBase" index="4"]
+material = SubResource("ShaderMaterial_rnyyr")
+frame_progress = 0.0
+
+[node name="FollowPath" parent="Flappa" index="1"]
+curve = SubResource("Curve2D_hen2f")
+
+[node name="RedDemon" parent="." instance=ExtResource("7_34c8f")]
+position = Vector2(144, 272)
+
+[node name="RedDemon2" parent="." instance=ExtResource("7_34c8f")]
+position = Vector2(392, 272)
 
 [editable path="Flappa"]
+[editable path="Flappa/EnemyBase"]

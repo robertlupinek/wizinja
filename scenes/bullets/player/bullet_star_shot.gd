@@ -34,17 +34,15 @@ func _physics_process(delta):
 		
 
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
-	if not body.is_in_group("player"):
-		if body.is_in_group("enemies"):
-			body._hurt(dmg)
-		
-		var sparks = particle.instantiate()
-		var world = get_tree().current_scene  
-		sparks.position = position
-		sparks.scale.x = -scale.x
-		world.add_child(sparks)	
-		AudioManager._play(hit_sound)
-		queue_free()
-		
+	if body.is_in_group("enemies"):
+		body._hurt(dmg)
 	
-
+	print(body_shape_index)
+	
+	var sparks = particle.instantiate()
+	var world = get_tree().current_scene  
+	sparks.position = position
+	sparks.scale.x = -scale.x
+	world.add_child(sparks)	
+	AudioManager._play(hit_sound)
+	queue_free()

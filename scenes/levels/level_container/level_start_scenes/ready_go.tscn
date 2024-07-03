@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhimnxnuomtk1"]
+
+[ext_resource type="FontFile" uid="uid://b5q43pbvnoom7" path="res://fonts/m5x7.ttf" id="1_i2ygp"]
+[ext_resource type="Script" path="res://scenes/levels/level_container/level_start_scenes/ready_go.gd" id="1_rbr1l"]
+[ext_resource type="AudioStream" uid="uid://sg0d7ct5hx6d" path="res://sounds/soundfx/level_start/ready_chip.wav" id="2_e3pd2"]
+[ext_resource type="AudioStream" uid="uid://bordh6kns6s3d" path="res://sounds/soundfx/level_start/go_chip.wav" id="3_ivi3x"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="ReadyGo" type="Control" parent="."]
+z_index = 4096
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rbr1l")
+sound_ready = ExtResource("2_e3pd2")
+sound_go = ExtResource("3_ivi3x")
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRectCenter" type="ColorRect" parent="ReadyGo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -80.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.99584, 0.959485, 0.860737, 0.184314)
+
+[node name="ColorRectBottom" type="ColorRect" parent="ReadyGo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 24.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.560784, 0.184314, 0.6, 0.470588)
+
+[node name="ColorRectTop" type="ColorRect" parent="ReadyGo"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -96.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.560784, 0.184314, 0.6, 0.470588)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ReadyGo"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -632.0
+offset_top = 248.0
+offset_right = 641.0
+offset_bottom = -304.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0.984829, 0.837294, 0.517831, 1)
+theme_override_colors/font_outline_color = Color(0.329316, 0.280289, 0.567117, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 23
+theme_override_fonts/normal_font = ExtResource("1_i2ygp")
+theme_override_font_sizes/normal_font_size = 100
+bbcode_enabled = true
+text = "[wave amp=20.0 freq=10.0 connected=1][center]READY????[/center][/wave]"
+fit_content = true

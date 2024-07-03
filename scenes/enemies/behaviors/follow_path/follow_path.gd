@@ -36,7 +36,6 @@ func _physics_process(delta):
 	$PathFollow2D.progress += speed * delta	
 	# Get direction
 	_get_direction()
-	print_debug("DIR: " + str(direction) + " FACING: " + str(base_body.facing) )
 	# Flip the base body is the facing direction is not the same as the path x direction
 	if flip_x and base_body.facing != direction.x:
 		base_body._flip()

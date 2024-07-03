@@ -24,6 +24,8 @@ position = Vector2(767.73, 0)
 rotates = false
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="PathFollow2D"]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/AnimatableBody2D"]
 position = Vector2(0.269531, -0.5)

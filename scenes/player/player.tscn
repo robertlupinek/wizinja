@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dd64m2gtmdvrw"]
+[gd_scene load_steps=19 format=3 uid="uid://dd64m2gtmdvrw"]
 
 [ext_resource type="Script" path="res://scenes/player/player_movement.gd" id="1_bhge8"]
 [ext_resource type="Shader" path="res://shaders/flash.gdshader" id="1_r4wub"]
@@ -52,28 +52,33 @@ _data = {
 }
 
 [sub_resource type="Curve" id="Curve_cht06"]
-_data = [Vector2(0.0147059, 0.325701), 0.0, 0.0, 0, 0, Vector2(1, 0.908878), 0.0, 0.0, 0, 0]
+resource_local_to_scene = true
+_data = [Vector2(0, 0.690265), 0.0, 0.0, 0, 0, Vector2(0.990548, 0.876106), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Gradient" id="Gradient_ltc2j"]
-offsets = PackedFloat32Array(0.100543, 0.127717, 0.904891, 0.92663)
-colors = PackedColorArray(0.294118, 0.188235, 0.588235, 0.454902, 0.296066, 0.188477, 0.586577, 1, 0.299422, 0.252785, 0.389959, 1, 0.243525, 0.122589, 0.395879, 0)
+offsets = PackedFloat32Array(0, 0.323108, 0.783231, 1)
+colors = PackedColorArray(0.219608, 0.266667, 0.541176, 0.870588, 0.184314, 0.223529, 0.466667, 1, 0.133333, 0.164706, 0.360784, 1, 0.133333, 0.164706, 0.360784, 0)
+
+[sub_resource type="Gradient" id="Gradient_d2oq6"]
+colors = PackedColorArray(0.741176, 0.121569, 0.247059, 0, 0.741176, 0.121569, 0.247059, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_delou"]
 size = Vector2(6, 16)
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 light_mask = 0
-collision_layer = 2
-collision_mask = 161
+collision_layer = 4
+collision_mask = 195
 floor_stop_on_slope = false
 floor_snap_length = 4.6
 script = ExtResource("1_bhge8")
-ground_speed = 700.0
+ground_speed = 600.0
 air_speed = 400.0
-dash_time = 0.2
+ground_friction = 48.0
+dash_time = 0.1
 dash_delay_time = 0.5
-dash_speed = 400.0
+dash_speed = 460.0
 jump_sound = ExtResource("2_seprg")
 hurt_sound = ExtResource("3_ij0q0")
 dash_sound = ExtResource("4_725wk")
@@ -103,16 +108,25 @@ libraries = {
 
 [node name="Line2DDash" type="Line2D" parent="."]
 show_behind_parent = true
-points = PackedVector2Array(-80, 0, 0, 0)
+light_mask = 0
+position = Vector2(1, 0)
+points = PackedVector2Array(-70, 0, 0, 0)
 width = 14.0
 width_curve = SubResource("Curve_cht06")
-default_color = Color(0.364706, 0.4, 0.701961, 1)
+default_color = Color(0.133333, 0.164706, 0.360784, 1)
 gradient = SubResource("Gradient_ltc2j")
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
-sharp_limit = 5.0
-round_precision = 2
+sharp_limit = 10.0
+round_precision = 5
+
+[node name="Line2DDash2" type="Line2D" parent="."]
+light_mask = 0
+points = PackedVector2Array(-77, -5, 0, -5)
+width = 1.0
+default_color = Color(0.741176, 0.121569, 0.247059, 1)
+gradient = SubResource("Gradient_d2oq6")
 
 [node name="LightTest" parent="." instance=ExtResource("8_4ym7f")]
 position = Vector2(0, -3)
@@ -127,8 +141,8 @@ texture_scale = 4.34
 transition_name = "fade_in"
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 32
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_delou")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://dtcrr8hdf4w31"]
+[gd_scene load_steps=17 format=3 uid="uid://dtcrr8hdf4w31"]
 
 [ext_resource type="PackedScene" uid="uid://cqbli6dcf6sj8" path="res://scenes/tilesets/tilemap_01.tscn" id="1_cxiww"]
-[ext_resource type="Script" path="res://scripts/levels/level_start.gd" id="1_tpngv"]
+[ext_resource type="Script" path="res://scenes/levels/level_container/level_container.gd" id="1_pm611"]
 [ext_resource type="PackedScene" uid="uid://dx683gjesmtug" path="res://scenes/ui/hud.tscn" id="2_8bvyy"]
 [ext_resource type="PackedScene" uid="uid://buwe2l6riioss" path="res://scenes/menus/pause_menu.tscn" id="2_dxngx"]
 [ext_resource type="PackedScene" uid="uid://bh0yyjt6naxkq" path="res://scenes/cameras/world_boundary.tscn" id="2_iosjw"]
+[ext_resource type="PackedScene" uid="uid://bhimnxnuomtk1" path="res://scenes/levels/level_container/level_start_scenes/ready_go.tscn" id="2_y04md"]
 [ext_resource type="PackedScene" uid="uid://dd64m2gtmdvrw" path="res://scenes/player/player.tscn" id="3_e8nbx"]
 [ext_resource type="Shader" path="res://shaders/flash.gdshader" id="5_85cs2"]
 [ext_resource type="PackedScene" uid="uid://dnva8r0wc8m54" path="res://scenes/music/song_unknown_town.tscn" id="6_regpc"]
@@ -18,6 +19,11 @@ shader = ExtResource("5_85cs2")
 shader_parameter/active = false
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Curve" id="Curve_q7m3e"]
+resource_local_to_scene = true
+_data = [Vector2(0, 0.690265), 0.0, 0.0, 0, 0, Vector2(0.990548, 0.876106), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="Gradient" id="Gradient_854s5"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
@@ -28,7 +34,8 @@ fill_from = Vector2(0.504274, 0.517094)
 fill_to = Vector2(0.226496, 0.846154)
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_tpngv")
+script = ExtResource("1_pm611")
+read_go_scene = ExtResource("2_y04md")
 set_scene_as_checkpoint = true
 
 [node name="PauseMenu" parent="." instance=ExtResource("2_dxngx")]
@@ -53,7 +60,10 @@ position = Vector2(144, 104)
 [node name="AnimatedSprite2D" parent="Player" index="1"]
 material = SubResource("ShaderMaterial_xepth")
 
-[node name="LightTest" parent="Player" index="4"]
+[node name="Line2DDash" parent="Player" index="3"]
+width_curve = SubResource("Curve_q7m3e")
+
+[node name="LightTest" parent="Player" index="5"]
 energy = 0.26
 texture_scale = 2.55
 

@@ -140,6 +140,7 @@ script = ExtResource("2_qvsan")
 [node name="LightTest" parent="." instance=ExtResource("3_ghh15")]
 color = Color(0.919556, 0.996287, 0.975446, 1)
 energy = 1.75
+shadow_enabled = false
 texture_scale = 5.56
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]

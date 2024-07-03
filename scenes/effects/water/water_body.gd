@@ -146,10 +146,9 @@ func _spring_collision(spring,body,velocity):
 	# Velocity is the velocity of the SPRING NOT the BODY !!!!
 	# Spring's velocity and can collide timer are all set in the WaterSpring's _on_body_shape_entered method
 	var abs_velocity = abs(velocity)
+	print(velocity)
 	if abs_velocity > splash_velocity and spring.on_screen:
-		_splashes(4,body.position.x,spring.global_position.y-1,abs_velocity)
-		# _splashes(4,body.position.x,body.global_position.y-1,abs_velocity)
-
+		_splashes(4,body.global_position.x,spring.global_position.y-1,abs_velocity)
 			
 func _splashes(count,x,y,velocity):
 	var world = get_tree().current_scene 

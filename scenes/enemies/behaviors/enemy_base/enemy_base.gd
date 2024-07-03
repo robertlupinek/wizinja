@@ -30,8 +30,6 @@ func _ready():
 	hurt_timer.one_shot = true
 	$AnimatedSprite2D.play("default")
 
-	
-
 func _physics_process(delta):
 
 	# Add the gravity.
@@ -54,7 +52,7 @@ func _hurt(dmg_received: float):
 	if hurt_timer.is_stopped():
 		hurt_timer.start(hurt_time)
 	# Screen shake!
-	GameFx._screen_shake(0.2,0.25)
+	GameFx._screen_shake(0.2,0.15)
 	# Play sound effects and do special effects
 	# AudioManager._play(hurt_sound)
 	# Effects

@@ -43,7 +43,7 @@ water_color = Color(0.0861225, 0.210541, 0.27225, 0.372549)
 water_outline_color = Color(0.585497, 0.932737, 0.968356, 0.176471)
 
 [node name="Area2D" type="Area2D" parent="." groups=["water"]]
-collision_layer = 32
+collision_layer = 64
 collision_mask = 0
 script = ExtResource("3_28apr")
 

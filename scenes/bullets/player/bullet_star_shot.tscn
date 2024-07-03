@@ -1,51 +1,51 @@
 [gd_scene load_steps=20 format=3 uid="uid://ej3p052tb5gh"]
 
-[ext_resource type="Script" path="res://scenes/bullets/bullet_star_shot.gd" id="1_vcimj"]
-[ext_resource type="AudioStream" uid="uid://cgyok6af7w6oi" path="res://sounds/soundfx/shot_1.wav" id="2_2htlu"]
-[ext_resource type="AudioStream" uid="uid://cyfd2a4o3joce" path="res://sounds/soundfx/hit_1.wav" id="3_3mxfe"]
-[ext_resource type="Texture2D" uid="uid://boro0f65sln5u" path="res://images/sprites/projectiles/star_shot.png" id="3_gjeno"]
-[ext_resource type="PackedScene" uid="uid://dolf7pell5gbb" path="res://scenes/effects/particles/wand_sparks.tscn" id="4_2lsbr"]
-[ext_resource type="Texture2D" uid="uid://cm2p27x0lymh3" path="res://images/sprites/projectiles/kuni.png" id="4_h2u3h"]
-[ext_resource type="PackedScene" uid="uid://h5lvwtk1iolv" path="res://scenes/effects/light_test.tscn" id="7_t4buh"]
+[ext_resource type="Script" path="res://scenes/bullets/player/bullet_star_shot.gd" id="1_5k56n"]
+[ext_resource type="AudioStream" uid="uid://cgyok6af7w6oi" path="res://sounds/soundfx/shot_1.wav" id="2_jubmu"]
+[ext_resource type="AudioStream" uid="uid://cyfd2a4o3joce" path="res://sounds/soundfx/hit_1.wav" id="3_upr4h"]
+[ext_resource type="PackedScene" uid="uid://dolf7pell5gbb" path="res://scenes/effects/particles/wand_sparks.tscn" id="4_88xhd"]
+[ext_resource type="Texture2D" uid="uid://cm2p27x0lymh3" path="res://images/sprites/projectiles/kuni.png" id="5_xf40g"]
+[ext_resource type="Texture2D" uid="uid://boro0f65sln5u" path="res://images/sprites/projectiles/star_shot.png" id="6_x6yoa"]
+[ext_resource type="PackedScene" uid="uid://h5lvwtk1iolv" path="res://scenes/effects/light_test.tscn" id="7_edy3r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2exps"]
-atlas = ExtResource("4_h2u3h")
+atlas = ExtResource("5_xf40g")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajj4k"]
-atlas = ExtResource("4_h2u3h")
+atlas = ExtResource("5_xf40g")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygsso"]
-atlas = ExtResource("4_h2u3h")
+atlas = ExtResource("5_xf40g")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovaix"]
-atlas = ExtResource("4_h2u3h")
+atlas = ExtResource("5_xf40g")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yj3h4"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lgt4k"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(32, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w35pf"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(64, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t1x3h"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h3uh1"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2s717"]
-atlas = ExtResource("3_gjeno")
+atlas = ExtResource("6_x6yoa")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_oa4cj"]
@@ -96,11 +96,11 @@ size = Vector2(9, 4)
 
 [node name="BulletStarShot" type="Area2D"]
 collision_layer = 8
-collision_mask = 5
-script = ExtResource("1_vcimj")
-shot_sound = ExtResource("2_2htlu")
-hit_sound = ExtResource("3_3mxfe")
-particle = ExtResource("4_2lsbr")
+collision_mask = 81
+script = ExtResource("1_5k56n")
+shot_sound = ExtResource("2_jubmu")
+hit_sound = ExtResource("3_upr4h")
+particle = ExtResource("4_88xhd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_oa4cj")
@@ -110,10 +110,11 @@ frame_progress = 0.141903
 position = Vector2(1.5, 0)
 shape = SubResource("RectangleShape2D_7uxxu")
 
-[node name="LightTest" parent="." instance=ExtResource("7_t4buh")]
+[node name="LightTest" parent="." instance=ExtResource("7_edy3r")]
 color = Color(0.919556, 0.996287, 0.975446, 1)
 energy = 0.96
 texture_scale = 1.26
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
 [connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]

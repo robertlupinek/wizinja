@@ -7,8 +7,8 @@ script = ExtResource("1_noxqx")
 
 [node name="WallRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, 6)
-target_position = Vector2(23, -7)
+target_position = Vector2(16, -14)
 
 [node name="FloorRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, 6)
-target_position = Vector2(3, 21)
+target_position = Vector2(5, 23)

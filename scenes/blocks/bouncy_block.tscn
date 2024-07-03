@@ -10,6 +10,7 @@ rough = true
 size = Vector2(76, 32)
 
 [node name="BouncyBlock" type="RigidBody2D"]
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_rb60n")
 gravity_scale = 0.0
 script = ExtResource("1_qf6qu")

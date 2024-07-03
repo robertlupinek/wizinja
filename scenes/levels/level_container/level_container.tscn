@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://beo31142chl2"]
+
+[ext_resource type="Script" path="res://scenes/levels/level_container/level_container.gd" id="1_twp0o"]
+[ext_resource type="PackedScene" uid="uid://bhimnxnuomtk1" path="res://scenes/levels/level_container/level_start_scenes/ready_go.tscn" id="2_cd7ee"]
+
+[node name="LevelContainer" type="Node2D"]
+script = ExtResource("1_twp0o")
+read_go_scene = ExtResource("2_cd7ee")

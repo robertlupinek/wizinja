@@ -1,56 +1,73 @@
-[gd_scene load_steps=14 format=3 uid="uid://dtayfa2h71u78"]
+[gd_scene load_steps=16 format=3 uid="uid://dtayfa2h71u78"]
 
 [ext_resource type="Texture2D" uid="uid://5hrwvjcmqhyf" path="res://images/sprites/enemies/BadRedDemon.png" id="1_3s7d8"]
 [ext_resource type="PackedScene" uid="uid://1e2xj2gm6yb8" path="res://scenes/enemies/behaviors/enemy_base/enemy_base.tscn" id="1_jrqrd"]
 [ext_resource type="Script" path="res://scenes/enemies/spawners/spawnable.gd" id="1_r6lh6"]
 [ext_resource type="PackedScene" uid="uid://blgtnxl5k5tgo" path="res://scenes/effects/particles/spawn_particles.tscn" id="2_gbf8m"]
+[ext_resource type="Shader" path="res://shaders/ghost_shine.gdshader" id="3_ieb2w"]
 [ext_resource type="PackedScene" uid="uid://bqt50xkq6qypy" path="res://scenes/enemies/behaviors/patroller/patroller.tscn" id="4_b3bkf"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_27mcf"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhgmt"]
 resource_local_to_scene = true
-size = Vector2(14, 26)
+size = Vector2(9, 26)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lctsr"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2aer"]
 resource_local_to_scene = true
-size = Vector2(14, 26)
+size = Vector2(14, 26.5)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b8djr"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q1ajk"]
+resource_local_to_scene = true
+shader = ExtResource("3_ieb2w")
+shader_parameter/active = false
+shader_parameter/flash = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/shain = true
+shader_parameter/onecolor = false
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_scale = 0.5
+shader_parameter/shadow = 1.0
+shader_parameter/shadow_mult = 1.0
+shader_parameter/frequency = 0.75
+shader_parameter/transparency = 0.25
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w8xgh"]
 atlas = ExtResource("1_3s7d8")
 region = Rect2(0, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x4756"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w84so"]
 atlas = ExtResource("1_3s7d8")
 region = Rect2(32, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wdf65"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6msty"]
 atlas = ExtResource("1_3s7d8")
 region = Rect2(64, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bxbbr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_d4nvq"]
 atlas = ExtResource("1_3s7d8")
 region = Rect2(96, 0, 32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pppnq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2thc6"]
 atlas = ExtResource("1_3s7d8")
 region = Rect2(128, 0, 32, 32)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5emav"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_50pso"]
+resource_local_to_scene = true
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_b8djr")
+"texture": SubResource("AtlasTexture_w8xgh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x4756")
+"texture": SubResource("AtlasTexture_w84so")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wdf65")
+"texture": SubResource("AtlasTexture_6msty")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bxbbr")
+"texture": SubResource("AtlasTexture_d4nvq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pppnq")
+"texture": SubResource("AtlasTexture_2thc6")
 }],
 "loop": true,
 "name": &"default",
@@ -63,18 +80,18 @@ script = ExtResource("1_r6lh6")
 spawn_particles = ExtResource("2_gbf8m")
 
 [node name="EnemyBase" parent="." instance=ExtResource("1_jrqrd")]
-speed = 30.0
+speed = 60.0
 
 [node name="CollisionShape2D" parent="EnemyBase" index="0"]
-position = Vector2(0, 3)
-shape = SubResource("RectangleShape2D_27mcf")
+shape = SubResource("RectangleShape2D_mhgmt")
 
 [node name="CollisionShape2D" parent="EnemyBase/Area2DDamage" index="0"]
-position = Vector2(0, 3)
-shape = SubResource("RectangleShape2D_lctsr")
+shape = SubResource("RectangleShape2D_t2aer")
 
 [node name="AnimatedSprite2D" parent="EnemyBase" index="4"]
-sprite_frames = SubResource("SpriteFrames_5emav")
+material = SubResource("ShaderMaterial_q1ajk")
+sprite_frames = SubResource("SpriteFrames_50pso")
+frame_progress = 0.0
 
 [node name="Patroller" parent="." instance=ExtResource("4_b3bkf")]
 
